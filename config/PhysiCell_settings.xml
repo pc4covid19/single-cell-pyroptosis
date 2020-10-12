@@ -113,7 +113,7 @@
 		</full_data>
 		
 		<SVG>
-			<interval units="min">15</interval>
+			<interval units="min">60</interval>
 			<enable>true</enable>
 		</SVG>
 		
@@ -465,7 +465,7 @@
 					description="initial concentration external IL-18">0</external_IL_18>	
 
 				<cytoplasmic_volume type="double" units="a.u. of volume"
-					description="cytoplasmic cell volume">1</cytoplasmic_volume>
+					description="cytoplasmic cell volume">2494</cytoplasmic_volume>  <!--total volume-->
 					
 				<cell_pyroptosis_flag type="int" units="dimensionless"
 					description="bool for pyropotosis">0</cell_pyroptosis_flag>
