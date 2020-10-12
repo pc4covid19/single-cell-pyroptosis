@@ -101,9 +101,9 @@ void internal_virus_response_model( Cell* pCell, Phenotype& phenotype, double dt
 	
 	// static int nAV = pCell->custom_data.find_variable_index( "assembled_virion" ); 
 	// double AV = pCell->custom_data[nAV]; 
-	static int proinflammatory_cytokine_index = microenvironment.find_density_index( "pro-inflammatory cytokine");
+	static int proinflammatory_cytokine_index = microenvironment.find_density_index("pro-inflammatory cytokine");
 		
-	static int nR = pCell->custom_data.find_variable_index( "viral_RNA");
+	static int nR = pCell->custom_data.find_variable_index("viral_RNA");
 	double R = pCell->custom_data[nR];
 	
 	if( R >= 1.00 - 1e-16 ) 
@@ -126,26 +126,50 @@ void internal_virus_response_model( Cell* pCell, Phenotype& phenotype, double dt
 		pCell->phenotype.secretion.secretion_rates[proinflammatory_cytokine_index] = pCell->custom_data["activated_cytokine_secretion_rate"];
 	}
 	
-	// (Adrianne) check whether the cell is undergoing pyroptosis and if so, evalute the pyropotosis model
+
 	if( pCell->custom_data["cell_pyroptosis_flag"]==1 )
 	{
 		pyroptosis_cascade( pCell, phenotype, dt ); 
 		return;
 	};
 	
-	// (Sara&Fiona) pyroptosis cascade in the cell is initiated if cell's viral_RNA is >1 (i.e. >=2). This is arbitraty to check things work. 
-	static int propyroptotic_cytokine_index = microenvironment.find_density_index( "pro-pyroptosis cytokine");
-    phenotype.secretion.uptake_rates[propyroptotic_cytokine_index] = 1.; // What should the secretion intake depend on ?
-    double pyroptotic_cytokine_concentration = phenotype.molecular.internalized_total_substrates[propyroptotic_cytokine_index];
-	if( R> 1)
+	// Sara&Fiona: Internalise pro-pyroptotic cytokine from the microenvironment
+	static int pro_pyroptotic_cytokine = microenvironment.find_density_index("pro-pyroptosis cytokine"); 
+	double pyroptotic_cytokine_concentration = phenotype.molecular.internalized_total_substrates[pro_pyroptotic_cytokine]; 
+
+	//printf("PCC: %lf\n",pyroptotic_cytokine_concentration);
+
+    //phenotype.secretion.uptake_rates[propyroptotic_cytokine_index] = 1.; // What should the secretion intake depend on ?
+    //double pyroptotic_cytokine_concentration = phenotype.molecular.internalized_total_substrates[propyroptotic_cytokine_index];
+    //phenotype.secretion.uptake_rates[nV_external] = pCell->custom_data[nR_bind] * pCell->custom_data[nR_EU]; 
+
+    // (Sara&Fiona) pyroptosis cascade in the cell is initiated if cell's viral_RNA is >1 (i.e. >=3). This is arbitraty to check things work.
+	if( R> 3 && pCell->custom_data["cell_pyroptosis_flag"]==0 && pCell->custom_data["cell_virus_induced_apoptosis_flag"]==0)
 	{
-		pCell->custom_data["cell_pyroptosis_flag"]=1; // Pyroptosis cascade is initiated
+		// set the probability (in 0,100) that a cell with a death-sentence pyroptoses (not apoptoses)
+		int cell_death_pyroptosis_probability = 0; 
+		// randomise a number in 0,100 that determines the cell death mode (pyroptosis or apoptosis)
+		int cell_death_dice =  rand() % 101;
+		if(cell_death_dice < cell_death_pyroptosis_probability) 
+		{
+			pCell->custom_data["cell_pyroptosis_flag"]=1; //cell pyroptoses
+		}
+		else 
+		{
+			pCell->custom_data["cell_virus_induced_apoptosis_flag"]=1; //cell apoptoses
+			phenotype.death.rates[apoptosis_model_index] = 1000; 
+		}
+
+
+		
 		return;
 	}
     // (Sara&Fiona)
-    else if(pyroptotic_cytokine_concentration>1.) 
+    else if(pyroptotic_cytokine_concentration>100.0 && pCell->custom_data["cell_pyroptosis_flag"]==0) 
     {
 		pCell->custom_data["cell_pyroptosis_flag"]=1; // Pyroptosis cascade is initiated
+		pCell->custom_data["cell_bystander_pyroptosis_flag"]=1; // Pyroptosis cascade is initiated
+		//printf("Pyro bystander effect!\n");
 		return;
     }
 	
@@ -297,8 +321,8 @@ void pyroptosis_cascade( Cell* pCell, Phenotype& phenotype, double dt )
 	static int proinflammatory_cytokine_index = microenvironment.find_density_index( "pro-inflammatory cytokine");
 	pCell->phenotype.secretion.secretion_rates[proinflammatory_cytokine_index] = pCell->custom_data["activated_cytokine_secretion_rate"]+k_il18_cte*g_gsdmd*pCell->custom_data[il_18_c];
     // (Sara and Fiona)
-	static int propyroptotic_cytokine_index = microenvironment.find_density_index( "pro-pyroptosis cytokine");
-	pCell->phenotype.secretion.secretion_rates[propyroptotic_cytokine_index] = pCell->custom_data["activated_cytokine_secretion_rate"]+k_il1b_cte*g_gsdmd*pCell->custom_data[il_1b_c];
+	static int propyroptotic_cytokine_index = microenvironment.find_density_index("pro-pyroptosis cytokine");
+	pCell->phenotype.secretion.secretion_rates[propyroptotic_cytokine_index] = k_il1b_cte*g_gsdmd*pCell->custom_data[il_1b_c];
 
 	//To do: We also want IL-1beta (pCell->custom_data[il_1b_e]) to be secreted. 
 	//IL-1beta can induce pyroptosis in other cells (pyroptosis bystander effect). 

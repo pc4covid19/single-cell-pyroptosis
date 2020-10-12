@@ -42,6 +42,7 @@ void receptor_dynamics_model( Cell* pCell, Phenotype& phenotype, double dt )
 	// bookkeeping -- find microenvironment variables we need
 
 	static int nV_external = microenvironment.find_density_index( "virion" ); 
+	
 	static int nA_external = microenvironment.find_density_index( "assembled virion" ); 
 	
 	static int nV_internal = pCell->custom_data.find_variable_index( "virion" ); 

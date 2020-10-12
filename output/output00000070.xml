@@ -11,9 +11,9 @@
 		</software>
 		<citation />
 		<current_time units="min">4200.000000</current_time>
-		<current_runtime units="sec">44.293474</current_runtime>
-		<created>2020-09-03T16:24:23Z</created>
-		<last_modified>2020-09-03T16:24:23Z</last_modified>
+		<current_runtime units="sec">73.864228</current_runtime>
+		<created>2020-10-11T20:38:09Z</created>
+		<last_modified>2020-10-11T20:38:09Z</last_modified>
 	</metadata>
 	<microenvironment>
 		<domain name="microenvironment">
@@ -66,6 +66,13 @@
 					<physical_parameter_set>
 						<conditions />
 						<diffusion_coefficient units="micron^2/min">555.560000</diffusion_coefficient>
+						<decay_rate units="1/min">0.010200</decay_rate>
+					</physical_parameter_set>
+				</variable>
+				<variable name="pro-pyroptosis cytokine" units="mol/micron^3" ID="6">
+					<physical_parameter_set>
+						<conditions />
+						<diffusion_coefficient units="micron^2/min">5.560000</diffusion_coefficient>
 						<decay_rate units="1/min">0.010200</decay_rate>
 					</physical_parameter_set>
 				</variable>
@@ -142,24 +149,27 @@
 							<label index="63" size="1">external_IL_18</label>
 							<label index="64" size="1">cytoplasmic_volume</label>
 							<label index="65" size="1">cell_pyroptosis_flag</label>
-							<label index="66" size="1">TCell_contact_time</label>
-							<label index="67" size="1">cell_attachment_rate</label>
-							<label index="68" size="1">cell_attachment_lifetime</label>
-							<label index="69" size="1">TCell_contact_death_threshold</label>
-							<label index="70" size="1">max_attachment_distance</label>
-							<label index="71" size="1">elastic_attachment_coefficient</label>
-							<label index="72" size="1">time_to_next_phagocytosis</label>
-							<label index="73" size="1">material_internalisation_rate</label>
-							<label index="74" size="1">threshold_macrophage_volume</label>
-							<label index="75" size="1">threshold_neutrophil_volume</label>
-							<label index="76" size="1">exhausted_macrophage_death_rat</label>
-							<label index="77" size="1">ability_to_phagocytose_infected_cell</label>
-							<label index="78" size="1">phagocytosis_rate</label>
-							<label index="79" size="1">sensitivity_to_debris_chemotaxis</label>
-							<label index="80" size="1">sensitivity_to_chemokine_chemotaxis</label>
-							<label index="81" size="1">activated_speed</label>
-							<label index="82" size="1">activated_cytokine_secretion_rate</label>
-							<label index="83" size="1">activated_immune_cell</label>
+							<label index="66" size="1">cell_bystander_pyroptosis_flag</label>
+							<label index="67" size="1">cell_virus_induced_apoptosis_flag</label>
+							<label index="68" size="1">internalised_pro_pyroptosis_cytokine</label>
+							<label index="69" size="1">TCell_contact_time</label>
+							<label index="70" size="1">cell_attachment_rate</label>
+							<label index="71" size="1">cell_attachment_lifetime</label>
+							<label index="72" size="1">TCell_contact_death_threshold</label>
+							<label index="73" size="1">max_attachment_distance</label>
+							<label index="74" size="1">elastic_attachment_coefficient</label>
+							<label index="75" size="1">time_to_next_phagocytosis</label>
+							<label index="76" size="1">material_internalisation_rate</label>
+							<label index="77" size="1">threshold_macrophage_volume</label>
+							<label index="78" size="1">threshold_neutrophil_volume</label>
+							<label index="79" size="1">exhausted_macrophage_death_rat</label>
+							<label index="80" size="1">ability_to_phagocytose_infected_cell</label>
+							<label index="81" size="1">phagocytosis_rate</label>
+							<label index="82" size="1">sensitivity_to_debris_chemotaxis</label>
+							<label index="83" size="1">sensitivity_to_chemokine_chemotaxis</label>
+							<label index="84" size="1">activated_speed</label>
+							<label index="85" size="1">activated_cytokine_secretion_rate</label>
+							<label index="86" size="1">activated_immune_cell</label>
 						</labels>
 						<filename>output00000070_cells_physicell.mat</filename>
 					</simplified_data>

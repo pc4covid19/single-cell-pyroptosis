@@ -385,12 +385,30 @@ std::vector<std::string> tissue_coloring_function( Cell* pCell )
 		// color by virion 
 
 		output = epithelium_coloring_function(pCell); 
-		if(pCell->custom_data["cell_pyroptosis_flag"]==1 )
+
+		if(pCell->custom_data["cell_pyroptosis_flag"]==1)
 		{
-			output[0] = parameters.strings("pyroptotic_epithelium_color");	
-			output[2] =  output[0];
-			output[3] = output[0];
-		}
+			if(pCell->custom_data["cell_bystander_pyroptosis_flag"]==1)
+			{
+				output[0] = parameters.strings("pyroptotic_bystander_epithelium_color");	
+				output[2] =  output[0];
+				output[3] = output[0];
+
+			}
+			else
+			{
+				output[0] = parameters.strings("pyroptotic_epithelium_color");	
+				output[2] =  output[0];
+				output[3] = output[0];
+			}
+		}/**
+		else if(pCell->custom_data["cell_virus_induced_apoptosis_flag"]==1)
+		{
+							output[0] = parameters.strings("vi_apoptotic_epithelium_color");	
+				output[2] =  output[0];
+				output[3] = output[0];
+		}*/
+
 		return output; 
 	}
 	

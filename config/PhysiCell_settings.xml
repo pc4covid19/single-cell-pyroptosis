@@ -178,12 +178,10 @@
 		</variable>
 
 
-        <!-- Sara and Fiona -->
-        <!-- Pyroptosis related variables (Diffusion) -->
-
+        <!-- (Sara & Fiona) pro-pyroptotic cytokine. Values copied from "chemokine". Diffusion constant is D_"chemokine"/100 to keep bystander effects local. -->
 		<variable name="pro-pyroptosis cytokine" units="mol/micron^3" ID="6">
 			<physical_parameter_set>
-				<diffusion_coefficient units="micron^2/min">555.56</diffusion_coefficient>
+				<diffusion_coefficient units="micron^2/min">5.56</diffusion_coefficient>
 				<decay_rate units="1/min">1.02e-2</decay_rate>  
 			</physical_parameter_set>
 			<initial_condition units="mol/micron^3">0</initial_condition>
@@ -378,71 +376,7 @@
 				<infected_cell_chemokine_secretion_activated units="none" type="double"
 					description="used internally to track activation of chemokine secretion">0</infected_cell_chemokine_secretion_activated>
 
-		<!-- (Sara and Fiona code) pyroptosis model constants--> 
-		<!--
-				<rate_NFkB_cytoplasm_to_nucleus type="double" units="1/min" 
-					description="rate of NFkB cytoplasm-to-nucleus translocation">0.3</rate_NFkB_cytoplasm_to_nucleus> 
-
-				<rate_NFkB_nucleus_to_cytoplasm type="double" units="1/min" 
-					description="rate of NFkB nucleus-to-cytoplasm translocation">0.03</rate_NFkB_nucleus_to_cytoplasm>
-
-				<rate_NLRP3_incactive_to_active type="double" units="1/min" 
-					description="NLRP3 activation rate">0.07</rate_NLRP3_incactive_to_active>
-
-				<rate_NLRP3_active_to_bound type="double" units="1/min" 
-					description="NLRP3 binding rate">0.07</rate_NLRP3_active_to_bound>
-
-				<rate_ASC_free_to_bound type="double" units="1/(min * (a.u. of concentration) )" 
-					description="NLRP3-ASC interaction rate">0.02</rate_ASC_free_to_bound>
-
-				<rate_caspase1_free_to_bound type="double" units="1/(min * (a.u. of concentration) )" 
-					description="ASC-pro-caspase1 interaction rate">0.04</rate_caspase1_free_to_bound>
-
-				<rate_Il1b_cytoplasmic_to_external type="double" units="1/min" 
-					description="Il1b cell exit rate">0.8</rate_Il1b_cytoplasmic_to_external>
-
-				<rate_Il18_cytoplasmic_to_external type="double" units="1/min" 
-					description="Il18 cell exit rate">0.8</rate_Il18_cytoplasmic_to_external>
-
-				<rate_pyroptosis_volume_increase type="double" units="1/min" 
-					description="pyroptosis-induced cytoplasmic volume increase rate">0.1</rate_pyroptosis_volume_increase>				
-
-				<decay_NLRPR_inactive_and_active type="double" units="1/min" 
-					description="NLRP3 decay rate">0.002</decay_NLRPR_inactive_and_active>	
-
-				<decay_IL1b type="double" units="1/min" 
-					description="IL1b decay rate">0.004</decay_IL1b>	
-
-				<rate_constant_NLRP3_production type="double" units="(a.u. of concentration)/min" 
-					description="NLRP3 production rate constant">0.025</rate_constant_NLRP3_production>
-
-				<rate_constant_IL1b_production type="double" units="(a.u. of concentration)/min" 
-					description="pro-IL-1b production rate constant">0.007</rate_constant_IL1b_production>
-
-				<rate_constant_GSDMD_cleavage type="double" units="min" 
-					description="rate of caspase1-induced GSDMD cleavage">0.08</rate_constant_GSDMD_cleavage>
-
-				<rate_constant_Il1b_cleavage type="double" units="min" 
-					description="rate of caspase1-induced IL-1b cleavage">0.8</rate_constant_Il1b_cleavage>
-
-				<rate_constant_Il18_cleavage type="double" units="min" 
-					description="rate of caspase1-induced IL-18 cleavage">0.8</rate_constant_Il18_cleavage>	
-
-				<halfmax_caspase1_cleavage type="double" units="dimensionless" 
-					description="test">0.3</halfmax_caspase1_cleavage>	
-
-
-				
-				<halfmax_caspase1_cleavage type="double" units="a.u. of concentration" 
-					description="half-max caspase1 for cleavage">0.3</halfmax_caspase1_cleavage>
-
-				<hillexponent_NFkB_transcription type="double" units="dimensionless" 
-					description="hill exponent nuclear NFkB for transcription">2.0</hillexponent_NFkB_transcription>						
-
-				<hillexponent_caspase1_cleavage type="double" units="dimensionless" 
-					description="hill exponent caspase1 for cleavage">2.o</hillexponent_caspase1_cleavage>
-			-->		
-		<!-- (Sara and Fiona code) pyroptosis initial conditions-->
+		<!-- (Sara & Fiona) pyroptosis initial conditions (for the Pyroptosis ODE) -->
 				<nuclear_NFkB type="double" units="a.u. of concentration"
 					description="initial nuclear NFkB concentration">0.25</nuclear_NFkB>
 
@@ -481,10 +415,16 @@
 
 				<cytoplasmic_volume type="double" units="a.u. of volume"
 					description="cytoplasmic cell volume">1</cytoplasmic_volume>
-					
+		<!-- (Sara & Fiona) flags for different cell death modes-->		
 				<cell_pyroptosis_flag type="int" units="dimensionless"
 					description="bool for pyropotosis">0</cell_pyroptosis_flag>
-				
+				<cell_bystander_pyroptosis_flag type="int" units="dimensionless"
+					description="bool for bystander pyropotosis">0</cell_bystander_pyroptosis_flag>
+				<cell_virus_induced_apoptosis_flag type="int" units="dimensionless"
+					description="bool for bystander pyropotosis">0</cell_virus_induced_apoptosis_flag>
+		<!-- (Sara & Fiona) variable for internalised propyroptotic cytokine (IL-1b) -->
+				<internalised_pro_pyroptosis_cytokine units="none" type="double"
+					description="used internally to track pro-pyroptotic cytokine concentration">0</internalised_pro_pyroptosis_cytokine>			
 				
 				<!-- for the immune model --> 
 				<TCell_contact_time type="double" units="min"
@@ -568,9 +508,10 @@
 					</options>
 				</motility>
 				<secretion>
-                    <!-- Sara and Fiona -->
+                    <!-- (Sara & Fiona) -->
 					<substrate name="pro-pyroptosis cytokine">
 						<secretion_target units="dimensionless substrate concentration">1</secretion_target>
+						<uptake_rate units="1/min">0.01</uptake_rate>
 					</substrate> 	
 				</secretion>
 			</phenotype>
@@ -863,9 +804,14 @@
 			<apoptotic_immune_color type="string" 
 				description="apoptotic immune cell color">rosybrown</apoptotic_immune_color>
 
-				<!-- Sara & Fiona -->
+			<!-- (Sara & Fiona) colours to visualise different modes of cell death -->
 			<pyroptotic_epithelium_color type="string" 
 				description="pyroptotic epithelial cell color">darkorange</pyroptotic_epithelium_color>
+			<pyroptotic_bystander_epithelium_color type="string" 
+				description="pyroptotic epithelial cell color">red</pyroptotic_bystander_epithelium_color>
+			<vi_apoptotic_epithelium_color type="string" 
+				description="pyroptotic epithelial cell color">forestgreen</vi_apoptotic_epithelium_color>
+
 		
 <!---			<lung_epithelium_color type="string" 
 				description="lung epithelium color">blue</lung_epithelium_color> -->
